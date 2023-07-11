@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import words from './words.json';
+import Man from "./components/Man";
+import Word from "./components/Word";
+import Keyboard from "./components/Keyboard";
 
 function App() {
+  const [wordToGuess, setWordToGuess] = useState(() => {
+    return words[Math.floor(Math.random() * words.length)]
+  });
+  const [guessedLetters, setguessedLetters] = useState<string[]>([]);
+  const incorectLetters = guessedLetters.filter(letter => !wordToGuess.includes(letter));
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Man numberOfMistakes={incorectLetters.length}/>
+      <Word/>
+      <Keyboard/>
     </div>
   );
 }
