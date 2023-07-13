@@ -11,7 +11,8 @@ function App() {
     });
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
     const incorrectLetters = guessedLetters.filter(letter => !wordToGuess.includes(letter));
-
+    const isLoser = incorrectLetters.length >= 6                                                            // gg
+    const isWinner = wordToGuess.split("").every(letter => guessedLetters.includes(letter)) // wp
     const addGuessedLetters = useCallback((letter: string) => {
         if (guessedLetters.includes(letter)) return
         setGuessedLetters(currentLetters => [...currentLetters, letter]);
@@ -30,13 +31,23 @@ function App() {
     }, [guessedLetters])
 
     return (
-        <div className="App">
+        <div style={{maxWidth: "800px", display: "flex", flexDirection: "column", gap: "2rem", margin: "0 auto", alignItems: "center"}}>
+            <div style={{fontSize: "2rem", textAlign: "center"}}>
+                {isWinner && "Wow, Well played"}
+                {isLoser && "Ooops, what a shame"}
+            </div>
             <Man numberOfMistakes={incorrectLetters.length}/>
             <Word
+                reveal={isLoser}
                 wordToGuess={wordToGuess}
                 guessedLetters={guessedLetters}
             />
-            <Keyboard/>
+            <Keyboard
+                disabled={isWinner || isLoser}
+                activeLetters={guessedLetters.filter(letter => wordToGuess.includes(letter))}
+                inActiveLetters={incorrectLetters}
+                addGuessedLetters={addGuessedLetters}
+            />
         </div>
     );
 }
