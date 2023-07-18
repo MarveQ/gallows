@@ -32,5 +32,3 @@ const Word = ({wordToGuess, guessedLetters, reveal = false}: WordProps) => {
 };
 
 export default Word;
-
-//

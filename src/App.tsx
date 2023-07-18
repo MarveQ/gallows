@@ -27,11 +27,20 @@ function App() {
             addGuessedLetters(key);
         }
         document.addEventListener("keypress", handler);
-        return () => {document.removeEventListener("keypress", handler)}
+        return () => {
+            document.removeEventListener("keypress", handler)
+        }
     }, [guessedLetters])
-
+    console.log(wordToGuess);
     return (
-        <div style={{maxWidth: "800px", display: "flex", flexDirection: "column", gap: "2rem", margin: "0 auto", alignItems: "center"}}>
+        <div style={{
+            maxWidth: "800px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "2rem",
+            margin: "0 auto",
+            alignItems: "center"
+        }}>
             <div style={{fontSize: "2rem", textAlign: "center"}}>
                 {isWinner && "Wow, Well played"}
                 {isLoser && "Ooops, what a shame"}
@@ -42,12 +51,14 @@ function App() {
                 wordToGuess={wordToGuess}
                 guessedLetters={guessedLetters}
             />
-            <Keyboard
-                disabled={isWinner || isLoser}
-                activeLetters={guessedLetters.filter(letter => wordToGuess.includes(letter))}
-                inActiveLetters={incorrectLetters}
-                addGuessedLetters={addGuessedLetters}
-            />
+            <div style={{alignSelf: "stretch"}}>
+                <Keyboard
+                    disabled={isWinner || isLoser}
+                    activeLetters={guessedLetters.filter(letter => wordToGuess.includes(letter))}
+                    inActiveLetters={incorrectLetters}
+                    addGuessedLetters={addGuessedLetters}
+                />
+            </div>
         </div>
     );
 }
